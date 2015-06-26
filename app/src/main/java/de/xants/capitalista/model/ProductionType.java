@@ -12,7 +12,7 @@ public enum ProductionType {
     TYPE7(R.string.type7, R.drawable.ic_dvr_black_48dp, 1000000, 10000, 30 * 60 * 1000, 1.01),
     TYPE8(R.string.type8, R.drawable.ic_dvr_black_48dp, 4000000, 100000, 1 * 3600 * 1000, 1.01),
     TYPE9(R.string.type9, R.drawable.ic_dvr_black_48dp, 10000000, 1000000, 10 * 3600 * 1000, 1.01),
-    TYPE10(R.string.type9, R.drawable.ic_dvr_black_48dp, 2500000, 10000000, 24 * 3600 * 1000, 1.01);
+    TYPE10(R.string.type9, R.drawable.ic_dvr_black_48dp, 25000000, 10000000, 24 * 3600 * 1000, 1.01);
 
     public final int TITLE, DRAWABLE;
     public final double BASE_COST, MULTIPLIER, BASE_PRODUCTION, BASE_TIME;
