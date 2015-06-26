@@ -11,7 +11,7 @@ import android.widget.TextView;
 import de.xants.capitalista.CM;
 import de.xants.capitalista.R;
 import de.xants.capitalista.model.Production;
-import de.xants.capitalista.model.UpgradeEvent;
+import de.xants.capitalista.model.otto.UpgradeRequestEvent;
 
 public class ProductionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -40,7 +40,7 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
     @Override
     public void onClick(View v) {
         if (v == this.mBtnUpgrade) {
-            CM.getBus().post(new UpgradeEvent(this.mProduction.getProductionType()));
+            CM.getBus().post(new UpgradeRequestEvent(this.mProduction.getProductionType()));
         }
     }
 }

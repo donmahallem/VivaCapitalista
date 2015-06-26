@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 import com.squareup.otto.Subscribe;
 
-import de.xants.capitalista.model.UpgradeEvent;
+import de.xants.capitalista.model.otto.UpgradeRequestEvent;
 import de.xants.capitalista.rv.ProductionRecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onUpgradeEvent(UpgradeEvent event) {
+    public void onUpgradeEvent(UpgradeRequestEvent event) {
         Snackbar
                 .make(this.mCoordinatorLayout, "" + event.getProductionType().toString(), Snackbar.LENGTH_LONG)
                 .show(); // Don’t forget to show!

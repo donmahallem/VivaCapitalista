@@ -1,8 +1,5 @@
 package de.xants.capitalista.model;
 
-/**
- * Created by Don on 26.06.2015.
- */
 public class Production {
     private ProductionType mProductionType;
 

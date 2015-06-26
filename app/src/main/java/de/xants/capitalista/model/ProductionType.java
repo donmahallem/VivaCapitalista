@@ -2,9 +2,6 @@ package de.xants.capitalista.model;
 
 import de.xants.capitalista.R;
 
-/**
- * Created by Don on 26.06.2015.
- */
 public enum ProductionType {
     TYPE1(R.string.type1, R.drawable.ic_dvr_black_48dp),
     TYPE2(R.string.type2, R.drawable.ic_dvr_black_48dp),
