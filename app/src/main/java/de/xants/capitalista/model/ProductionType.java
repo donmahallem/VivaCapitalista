@@ -17,6 +17,14 @@ public enum ProductionType {
     public final int TITLE, DRAWABLE;
     public final double BASE_COST, MULTIPLIER, BASE_PRODUCTION, BASE_TIME;
 
+    /**
+     * @param title          TYPE NAME
+     * @param drawable       TYPE IMAGE
+     * @param baseCost       BASE COST FOR LEVEL 1
+     * @param baseProduction BASE PRODUCTION VALUE FOR LEVEL 1
+     * @param baseTime       BASE PRODUCTION TIME FOR LEVEL 1
+     * @param multiplier     BASE COST MULTIPLIER PER LEVEL
+     */
     ProductionType(int title, int drawable, double baseCost, double baseProduction, double baseTime, double multiplier) {
         this.TITLE = title;
         this.DRAWABLE = drawable;
