@@ -1,7 +1,9 @@
 package de.xants.capitalista;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -12,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.squareup.otto.Subscribe;
+
+import de.xants.capitalista.model.UpgradeEvent;
 import de.xants.capitalista.rv.ProductionRecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,11 +25,13 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private RecyclerView mRecyclerView;
 
+    private CoordinatorLayout mCoordinatorLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.mCoordinatorLayout = (CoordinatorLayout) this.findViewById(R.id.main_content);
         this.mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.mRecyclerView.setAdapter(new ProductionRecyclerAdapter());
@@ -45,6 +52,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        CM.getBus().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CM.getBus().unregister(this);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.global, menu);
         return true;
@@ -58,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Subscribe
+    public void onUpgradeEvent(UpgradeEvent event) {
+        Snackbar
+                .make(this.mCoordinatorLayout, "" + event.getProductionType().toString(), Snackbar.LENGTH_LONG)
+                .show(); // Don’t forget to show!
     }
 
     private void setupDrawerContent(NavigationView navigationView) {

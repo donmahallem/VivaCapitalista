@@ -28,6 +28,10 @@
             android:text="Friends"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000" />
         <LinearLayout
             android:id="@+id/footer"
             style="?android:attr/buttonBarStyle"
@@ -36,20 +40,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/saveButton"
+                android:id="@id/btn_upgrade"
                 style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="upgrade" />
 
-            <Button
-                android:id="@+id/cancelButton"
-                style="?android:buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="downgrade" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
