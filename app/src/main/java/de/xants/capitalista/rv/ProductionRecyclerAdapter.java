@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.xants.capitalista.CM;
 import de.xants.capitalista.model.Production;
 import de.xants.capitalista.model.ProductionType;
 
@@ -46,5 +47,17 @@ public class ProductionRecyclerAdapter extends RecyclerView.Adapter<ProductionVi
     @Override
     public int getItemCount() {
         return this.mProductionList.size();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(ProductionViewHolder holder) {
+        CM.getBus().register(holder);
+        super.onViewAttachedToWindow(holder);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ProductionViewHolder holder) {
+        CM.getBus().unregister(holder);
+        super.onViewDetachedFromWindow(holder);
     }
 }

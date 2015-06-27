@@ -8,10 +8,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import de.xants.capitalista.CM;
 import de.xants.capitalista.R;
 import de.xants.capitalista.model.Production;
-import de.xants.capitalista.model.otto.UpgradeRequestEvent;
+import de.xants.capitalista.model.otto.ProductionUpgradeEvent;
 
 public class ProductionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -19,28 +21,44 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
 
     private ImageView mIvIcon;
     private TextView mTvTitle;
-
+    private TextView mTvLevel;
     private Production mProduction;
     public ProductionViewHolder(ViewGroup parent) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_production, parent, false));
         this.mIvIcon = (ImageView) this.itemView.findViewById(R.id.iv_icon);
         this.mTvTitle = (TextView) this.itemView.findViewById(R.id.tv_title);
+        this.mTvLevel = (TextView) this.itemView.findViewById(R.id.tv_level);
         this.mBtnUpgrade = (Button) this.itemView.findViewById(R.id.btn_upgrade);
         this.mBtnUpgrade.setOnClickListener(this);
     }
 
+    @Subscribe
+    public void onProductionUpgrade(ProductionUpgradeEvent productionUpgradeEvent) {
+        if (productionUpgradeEvent == null || this.mProduction == null)
+            return;
+        if (productionUpgradeEvent.PRODUCTION_TYPE == this.mProduction.getProductionType()) {
+            this.mProduction.setLevel(productionUpgradeEvent.LEVEL);
+            updateData();
+        }
+    }
+
+    private void updateData() {
+        this.mIvIcon.setImageResource(this.mProduction.getProductionType().DRAWABLE);
+        this.mTvTitle.setText(this.mProduction.getProductionType().TITLE);
+        this.mTvLevel.setText("" + this.mProduction.getLevel());
+    }
     public void setData(Production production) {
         if (production == null)
             return;
         this.mProduction = production;
-        this.mIvIcon.setImageResource(production.getProductionType().DRAWABLE);
-        this.mTvTitle.setText(production.getProductionType().TITLE);
+        updateData();
     }
 
     @Override
     public void onClick(View v) {
         if (v == this.mBtnUpgrade) {
-            CM.getBus().post(new UpgradeRequestEvent(this.mProduction.getProductionType()));
+            //CM.getBus().post(new UpgradeRequestEvent(this.mProduction.getProductionType()));
+            CM.getBus().post(ProductionUpgradeEvent.create(this.mProduction.getLevel() + 1, this.mProduction.getProductionType()));
         }
     }
 }

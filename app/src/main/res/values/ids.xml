@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ImageViews-->
     <item name="iv_icon" type="id" />
+
+    <!-- TextViews -->
     <item name="tv_title" type="id" />
+    <item name="tv_level" type="id"/>
+
+    <!-- Buttons -->
     <item name="btn_upgrade" type="id" />
 </resources>
