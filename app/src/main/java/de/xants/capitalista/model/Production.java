@@ -1,5 +1,8 @@
 package de.xants.capitalista.model;
 
+import de.xants.capitalista.CM;
+import de.xants.capitalista.model.otto.ProductionUpgradeEvent;
+
 public class Production {
     private final ProductionType mProductionType;
     private int mLevel;
@@ -57,5 +60,10 @@ public class Production {
      */
     public double levelCost(int level) {
         return this.mProductionType.BASE_COST * Math.pow(this.mProductionType.MULTIPLIER, level);
+    }
+
+    public void upgrade(int level) {
+        this.mLevel += level;
+        CM.getBus().post(ProductionUpgradeEvent.create(level, this.mProductionType));
     }
 }
