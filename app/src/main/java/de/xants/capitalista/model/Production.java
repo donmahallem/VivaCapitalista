@@ -24,18 +24,37 @@ public class Production {
         return this.mProductionType.BASE_PRODUCTION * Math.pow(this.mProductionType.MULTIPLIER, this.mLevel);
     }
 
+    /**
+     * Calculates the cost for the upgrade to the next level
+     *
+     * @return upgrade cost
+     */
     public double upgradeCost() {
         return this.upgradeCost(1);
     }
 
+    /**
+     * Calculates the cost for the upgrade by x level
+     * @param level level
+     * @return the upgrade cost
+     */
     public double upgradeCost(int level) {
         return this.levelCost(this.mLevel + level) - this.levelCost();
     }
 
+    /**
+     * Calculates the cost for the current level
+     * @return cost for current level
+     */
     public double levelCost() {
         return this.levelCost(this.mLevel);
     }
 
+    /**
+     * calculates the cost for the specified level
+     * @param level level
+     * @return cost for level
+     */
     public double levelCost(int level) {
         return this.mProductionType.BASE_COST * Math.pow(this.mProductionType.MULTIPLIER, level);
     }
