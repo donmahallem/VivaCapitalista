@@ -62,6 +62,11 @@ public class Production {
         return this.mProductionType.BASE_COST * Math.pow(this.mProductionType.MULTIPLIER, level);
     }
 
+    /**
+     * upgrades the current production by x level
+     *
+     * @param level Level
+     */
     public void upgrade(int level) {
         this.mLevel += level;
         CM.getBus().post(ProductionUpgradeEvent.create(level, this.mProductionType));

@@ -1,45 +1,63 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="5dp"
-    app:cardBackgroundColor="#DDDDDD"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="4dp">
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_marginLeft="16dp"
+                                    android:layout_marginRight="16dp"
+                                    android:layout_marginTop="5dp"
+                                    app:cardBackgroundColor="#DDDDDD"
+                                    app:cardCornerRadius="4dp"
+                                    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@id/iv_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@id/tv_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Friends"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@id/tv_level"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Friends"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:id="@id/iv_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@id/tv_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Friends"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:text="Friends"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#33000000" />
+            android:background="#22000000"/>
+
         <LinearLayout
             android:id="@+id/footer"
             style="?android:attr/buttonBarStyle"
@@ -52,7 +70,7 @@
                 style="?android:buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="upgrade" />
+                android:text="upgrade"/>
 
         </LinearLayout>
     </LinearLayout>
