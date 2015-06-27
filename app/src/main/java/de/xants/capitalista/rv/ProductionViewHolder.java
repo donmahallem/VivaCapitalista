@@ -46,6 +46,7 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
         this.mIvIcon.setImageResource(this.mProduction.getProductionType().DRAWABLE);
         this.mTvTitle.setText(this.mProduction.getProductionType().TITLE);
         this.mTvLevel.setText("" + this.mProduction.getLevel());
+        this.mBtnUpgrade.setText("" + this.mProduction.upgradeCost());
     }
     public void setData(Production production) {
         if (production == null)
