@@ -1,19 +1,34 @@
 package de.xants.capitalista;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Intent;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 
-public class GameService extends Service {
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return Service.START_NOT_STICKY;
+import de.xants.capitalista.model.Game;
+import timber.log.Timber;
+
+public class GameService extends IntentService {
+
+    private boolean mRunning = true;
+    private Game mGame = new Game();
+
+    public GameService() {
+        super("CapitalistaGameEngine");
     }
 
-    @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    protected void onHandleIntent(Intent intent) {
+        Timber.d("Starting GameService");
+        long time = System.currentTimeMillis();
+        while (this.mRunning) {
+            this.mGame.tick();
+        }
     }
+
+    @Override
+    public void onDestroy() {
+        Timber.d("Stoping GameService");
+        this.mRunning = false;
+        super.onDestroy();
+    }
+
 }

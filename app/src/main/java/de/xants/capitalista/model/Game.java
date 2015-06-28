@@ -3,9 +3,6 @@ package de.xants.capitalista.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.xants.capitalista.CM;
-import de.xants.capitalista.model.otto.UpdateMoneyLowFrequencyEvent;
-
 /**
  * Central class for all game related information
  */
@@ -13,16 +10,36 @@ public class Game {
 
     private double mWorth;
     private Map<ProductionType, Production> mProductionMap = new HashMap<ProductionType, Production>();
+    private boolean mProductionUpgraded = true;
     private long mLastTickSecond = 0;
+    private double mProductionPerSecCache = 0;
+    /**
+     * Stores the time the game last ticked
+     */
+    private long mLastTick = System.currentTimeMillis();
+    /**
+     * Global holder for current time
+     */
+    private long now = System.currentTimeMillis();
 
-    public double getProductionPerSec() {
-        double production = 0;
-        for (Production p : this.mProductionMap.values()) {
-            production += p.getProductionPerSec();
+    public synchronized double getProductionPerSecond() {
+        if (!this.mProductionUpgraded) {
+            return this.mProductionPerSecCache;
         }
-        return production;
+        this.mProductionUpgraded = false;
+        this.mProductionPerSecCache = 0;
+        for (Production p : this.mProductionMap.values()) {
+            this.mProductionPerSecCache += p.getProductionPerSec();
+        }
+        return this.mProductionPerSecCache;
     }
 
+    /**
+     * Gets the production for the specified ProductionType
+     *
+     * @param productionType Production Type
+     * @return the production or @null
+     */
     public Production getProduction(ProductionType productionType) {
         return this.mProductionMap.get(productionType);
     }
@@ -48,13 +65,24 @@ public class Game {
         if (this.mProductionMap.containsKey(productionType))
             return;
         this.mProductionMap.get(productionType).upgrade(level);
+        this.mProductionUpgraded=true;
     }
 
+    /**
+     * Ticks the game engine
+     */
     public void tick() {
-        final long now = System.currentTimeMillis();
-        if (this.mLastTickSecond != now / 1000L) {
-            CM.getBus().post(UpdateMoneyLowFrequencyEvent.create(this.mWorth));
-            this.mLastTickSecond = now / 1000L;
-        }
+        this.now = System.currentTimeMillis();
+        this.tick(now - this.mLastTick);
+        this.mLastTick=now;
+    }
+
+    /**
+     * Steps the game by x miliseconds
+     *
+     * @param milisecond the game tick step
+     */
+    public void tick(long milisecond) {
+        this.mWorth += this.getProductionPerSecond() * milisecond;
     }
 }

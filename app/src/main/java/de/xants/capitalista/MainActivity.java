@@ -1,5 +1,6 @@
 package de.xants.capitalista;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -22,9 +23,11 @@ import de.xants.capitalista.rv.ProductionRecyclerAdapter;
 public class MainActivity extends AppCompatActivity {
 
 
+    GameService mService;
+    boolean mBound = false;
+    Intent intent;
     private DrawerLayout mDrawerLayout;
     private RecyclerView mRecyclerView;
-
     private CoordinatorLayout mCoordinatorLayout;
 
     @Override
@@ -52,14 +55,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        // Bind to LocalService
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unbind from the service
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        intent = new Intent(this, GameService.class);
+        startService(intent);
         CM.getBus().register(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        stopService(intent);
         CM.getBus().unregister(this);
     }
 
