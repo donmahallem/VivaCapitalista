@@ -11,7 +11,6 @@ public class Game {
     private double mWorth;
     private Map<ProductionType, Production> mProductionMap = new HashMap<ProductionType, Production>();
     private boolean mProductionUpgraded = true;
-    private long mLastTickSecond = 0;
     private double mProductionPerSecCache = 0;
     /**
      * Stores the time the game last ticked
