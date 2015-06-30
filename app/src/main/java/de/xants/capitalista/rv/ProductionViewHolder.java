@@ -23,6 +23,7 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
     private TextView mTvTitle;
     private TextView mTvLevel;
     private Production mProduction;
+
     public ProductionViewHolder(ViewGroup parent) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_production, parent, false));
         this.mIvIcon = (ImageView) this.itemView.findViewById(R.id.iv_icon);
@@ -48,6 +49,7 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
         this.mTvLevel.setText("" + this.mProduction.getLevel());
         this.mBtnUpgrade.setText("" + this.mProduction.upgradeCost());
     }
+
     public void setData(Production production) {
         if (production == null)
             return;

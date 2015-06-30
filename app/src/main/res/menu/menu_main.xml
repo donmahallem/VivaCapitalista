@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
     <item
         android:id="@+id/navigation_subheader"
         android:title="@string/navigation_subheader">
@@ -16,7 +16,7 @@
             <item
                 android:id="@+id/navigation_sub_item_2"
                 android:icon="@drawable/ic_drawer"
-                android:title="@string/abc_action_mode_done" />
+                android:title="@string/abc_action_mode_done"/>
         </menu>
     </item>
 </menu>

@@ -2,14 +2,14 @@
 <resources>
 
     <!-- ImageViews-->
-    <item name="iv_icon" type="id" />
+    <item name="iv_icon" type="id"/>
 
     <!-- TextViews -->
-    <item name="tv_title" type="id" />
+    <item name="tv_title" type="id"/>
     <item name="tv_level" type="id"/>
 
     <!-- Buttons -->
-    <item name="btn_upgrade" type="id" />
+    <item name="btn_upgrade" type="id"/>
 
     <!-- Fragment -->
     <item name="fragment_content" type="id"/>

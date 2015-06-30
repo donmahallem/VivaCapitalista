@@ -64,7 +64,7 @@ public class Game {
         if (this.mProductionMap.containsKey(productionType))
             return;
         this.mProductionMap.get(productionType).upgrade(level);
-        this.mProductionUpgraded=true;
+        this.mProductionUpgraded = true;
     }
 
     /**
@@ -73,7 +73,7 @@ public class Game {
     public void tick() {
         this.now = System.currentTimeMillis();
         this.tick(now - this.mLastTick);
-        this.mLastTick=now;
+        this.mLastTick = now;
     }
 
     /**

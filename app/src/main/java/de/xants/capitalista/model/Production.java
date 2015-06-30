@@ -38,6 +38,7 @@ public class Production {
 
     /**
      * Calculates the cost for the upgrade by x level
+     *
      * @param level level
      * @return the upgrade cost
      */
@@ -47,6 +48,7 @@ public class Production {
 
     /**
      * Calculates the cost for the current level
+     *
      * @return cost for current level
      */
     public double levelCost() {
@@ -55,6 +57,7 @@ public class Production {
 
     /**
      * calculates the cost for the specified level
+     *
      * @param level level
      * @return cost for level
      */
