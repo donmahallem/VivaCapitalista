@@ -1,9 +1,11 @@
-package de.xants.capitalista;
+package de.xants.capitalista.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import de.xants.capitalista.R;
 
 public abstract class FragmentToolbar extends android.support.v4.app.Fragment {
     private Toolbar mToolbar;

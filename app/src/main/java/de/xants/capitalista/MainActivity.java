@@ -12,6 +12,8 @@ import android.view.MenuItem;
 
 import com.squareup.otto.Subscribe;
 
+import de.xants.capitalista.fragments.FragmentProductionOverview;
+import de.xants.capitalista.fragments.FragmentUpgradesOverview;
 import de.xants.capitalista.model.Fragments;
 import de.xants.capitalista.model.otto.FragmentShowEvent;
 
