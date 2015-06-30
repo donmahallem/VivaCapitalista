@@ -6,9 +6,13 @@
         android:title="@string/navigation_subheader">
         <menu>
             <item
-                android:id="@+id/navigation_sub_item_1"
+                android:id="@id/menu_production"
                 android:icon="@drawable/abc_ic_clear_mtrl_alpha"
-                android:title="@string/abc_action_mode_done" />
+                android:title="@string/production"/>
+            <item
+                android:id="@id/menu_upgrades"
+                android:icon="@drawable/abc_ic_clear_mtrl_alpha"
+                android:title="@string/upgrades"/>
             <item
                 android:id="@+id/navigation_sub_item_2"
                 android:icon="@drawable/ic_drawer"

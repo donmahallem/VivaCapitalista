@@ -2,23 +2,18 @@ package de.xants.capitalista;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.squareup.otto.Subscribe;
 
-import de.xants.capitalista.model.otto.UpgradeRequestEvent;
-import de.xants.capitalista.rv.ProductionRecyclerAdapter;
+import de.xants.capitalista.model.Fragments;
+import de.xants.capitalista.model.otto.FragmentShowEvent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,25 +22,17 @@ public class MainActivity extends AppCompatActivity {
     boolean mBound = false;
     Intent intent;
     private DrawerLayout mDrawerLayout;
-    private RecyclerView mRecyclerView;
-    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.mCoordinatorLayout = (CoordinatorLayout) this.findViewById(R.id.main_content);
-        this.mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
-        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        this.mRecyclerView.setAdapter(new ProductionRecyclerAdapter());
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+/*
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_drawer);
-        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayHomeAsUpEnabled(true);*/
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        this.mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -69,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        if (this.getSupportFragmentManager().findFragmentById(R.id.fragment_content) == null)
+            onShowFragment(FragmentShowEvent.create(Fragments.MAIN));
         intent = new Intent(this, GameService.class);
         startService(intent);
         CM.getBus().register(this);
@@ -97,11 +86,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Subscribe
-    public void onUpgradeEvent(UpgradeRequestEvent event) {
-        Snackbar
-                .make(this.mCoordinatorLayout, "" + event.getProductionType().toString(), Snackbar.LENGTH_LONG)
-                .show(); // Don’t forget to show!
+    public void onShowFragment(FragmentShowEvent fragmentShowEvent) {
+        FragmentTransaction fragmentTransaction;
+        switch (fragmentShowEvent.FRAGMENT) {
+            case UPGRADES:
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_content, FragmentUpgradesOverview.createInstance(), "upgradesOverview");
+                fragmentTransaction.commit();
+                break;
+            case MAIN:
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_content, FragmentProductionOverview.createInstance(), "productionOverview");
+                fragmentTransaction.commit();
+                break;
+        }
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -109,6 +109,14 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.menu_upgrades:
+                                CM.getBus().post(FragmentShowEvent.create(Fragments.UPGRADES));
+                                break;
+                            case R.id.menu_production:
+                                CM.getBus().post(FragmentShowEvent.create(Fragments.MAIN));
+                                break;
+                        }
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;

@@ -4,8 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="colorPrimary">#FF0000</item>
-        <item name="colorPrimaryDark">#CC0000</item>
+        <item name="colorPrimary">@color/green_500</item>
+        <item name="colorPrimaryDark">@color/green_700</item>
     </style>
 
 </resources>

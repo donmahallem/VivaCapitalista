@@ -10,4 +10,15 @@
 
     <!-- Buttons -->
     <item name="btn_upgrade" type="id" />
+
+    <!-- Fragment -->
+    <item name="fragment_content" type="id"/>
+
+    <!-- Else -->
+    <item name="toolbar" type="id"/>
+    <item name="recyclerView" type="id"/>
+
+    <!-- Menu -->
+    <item name="menu_upgrades" type="id"/>
+    <item name="menu_production" type="id"/>
 </resources>
