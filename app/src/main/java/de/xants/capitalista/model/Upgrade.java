@@ -25,7 +25,7 @@ public class Upgrade {
         this.COST = cost;
     }
 
-    public Upgrade create(int position) {
+    public static Upgrade create(int position) {
         switch (position % 10) {
             case 0:
                 return new Upgrade(ProductionType.TYPE1, 10 * Math.pow(2, position));

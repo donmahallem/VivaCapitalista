@@ -28,11 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import de.xants.capitalista.R;
+import de.xants.capitalista.rv.UpgradesRecyclerAdapter;
 
 public class FragmentUpgradesOverview extends FragmentToolbar {
     private CoordinatorLayout mCoordinatorLayout;
     private RecyclerView mRecyclerView;
-
     public static Fragment createInstance() {
         return new FragmentUpgradesOverview();
     }
@@ -49,7 +49,7 @@ public class FragmentUpgradesOverview extends FragmentToolbar {
         this.mCoordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.main_content);
         this.mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //this.mRecyclerView.setAdapter(new ProductionRecyclerAdapter());
+        this.mRecyclerView.setAdapter(new UpgradesRecyclerAdapter());
         if (this.getActivity() instanceof AppCompatActivity)
             ((AppCompatActivity) this.getActivity()).setSupportActionBar(this.getToolbar());
         this.getToolbar().setNavigationIcon(R.drawable.ic_drawer);
