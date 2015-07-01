@@ -35,7 +35,7 @@
         </activity>
         <service
             android:name="de.xants.capitalista.GameService"
-            android:icon="@drawable/ic_drawer"
+            android:icon="@drawable/ic_menu_white_36dp"
             android:label="@string/app_name"
             android:process=":my_process"
             >

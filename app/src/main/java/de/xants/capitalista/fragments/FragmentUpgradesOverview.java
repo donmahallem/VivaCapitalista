@@ -52,6 +52,7 @@ public class FragmentUpgradesOverview extends FragmentToolbar {
         this.mRecyclerView.setAdapter(new UpgradesRecyclerAdapter());
         if (this.getActivity() instanceof AppCompatActivity)
             ((AppCompatActivity) this.getActivity()).setSupportActionBar(this.getToolbar());
-        this.getToolbar().setNavigationIcon(R.drawable.ic_drawer);
+        this.getToolbar().setNavigationIcon(R.drawable.ic_menu_white_36dp);
+        this.getActivity().setTitle(R.string.upgrades);
     }
 }

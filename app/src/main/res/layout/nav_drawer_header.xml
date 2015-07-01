@@ -18,4 +18,4 @@
            android:layout_width="match_parent"
            android:layout_height="240dp"
            android:scaleType="fitCenter"
-           android:src="@drawable/ic_drawer"/>
+           android:src="@drawable/ic_menu_white_36dp"/>
