@@ -23,11 +23,11 @@
         <menu>
             <item
                 android:id="@id/menu_production"
-                android:icon="@drawable/abc_ic_clear_mtrl_alpha"
+                android:icon="@drawable/ic_device_hub_black_24dp"
                 android:title="@string/production"/>
             <item
                 android:id="@id/menu_upgrades"
-                android:icon="@drawable/abc_ic_clear_mtrl_alpha"
+                android:icon="@drawable/ic_file_upload_black_24dp"
                 android:title="@string/upgrades"/>
             <item
                 android:id="@+id/navigation_sub_item_2"
