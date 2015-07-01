@@ -30,9 +30,9 @@
                 android:icon="@drawable/ic_file_upload_black_24dp"
                 android:title="@string/upgrades"/>
             <item
-                android:id="@+id/navigation_sub_item_2"
-                android:icon="@drawable/ic_drawer"
-                android:title="@string/abc_action_mode_done"/>
+                android:id="@id/menu_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/settings"/>
         </menu>
     </item>
 </menu>
