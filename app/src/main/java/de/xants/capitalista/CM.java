@@ -16,13 +16,56 @@
 
 package de.xants.capitalista;
 
+import android.content.Context;
+
+import com.squareup.okhttp.Cache;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.otto.Bus;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 public class CM {
 
+    private final static long CACHE_SIZE = 50 * 1024 * 1024;
     private static Bus BUS = new Bus();
+    private static OkHttpClient mOkHttpClient;
+    private static Cache mOkHttpClientCache;
+    private static Picasso mPicasso;
+
+    private static Context mContext;
+
+    static {
+        mOkHttpClient = new OkHttpClient();
+    }
+
+    public static OkHttpClient getOkHttpClient() {
+        return mOkHttpClient;
+    }
+
+    public static Picasso getPicasso() {
+        if (mPicasso == null) {
+            mPicasso = new Picasso.Builder(mContext)
+                    .indicatorsEnabled(true)
+                    .loggingEnabled(true)
+                    .downloader(new OkHttpDownloader(getOkHttpClient()))
+                    .build();
+        }
+        return mPicasso;
+    }
+
+    public static void init(Context context) {
+        mContext = context;
+        if (mContext != null) {
+            mOkHttpClientCache = new Cache(new File(context.getCacheDir(), "okhttp"), CACHE_SIZE);
+            mOkHttpClient.setCache(mOkHttpClientCache);
+        }
+    }
 
     public static Bus getBus() {
         return BUS;
     }
+
+
 }

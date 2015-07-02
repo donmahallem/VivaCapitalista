@@ -25,8 +25,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.squareup.otto.Subscribe;
+
+import java.util.Random;
 
 import de.xants.capitalista.fragments.FragmentProductionOverview;
 import de.xants.capitalista.fragments.FragmentUpgradesOverview;
@@ -36,10 +39,13 @@ import de.xants.capitalista.model.otto.FragmentShowEvent;
 public class MainActivity extends AppCompatActivity {
 
 
+    private final static String[] NAV_BAR_IMAGE_URLS = new String[]{"https://raw.githubusercontent.com/donmahallem/VivaCapitalista/master/art/nav_bar/bg2.jpg"};
+    private final static Random RANDOM = new Random();
     GameService mService;
     boolean mBound = false;
     Intent intent;
     private DrawerLayout mDrawerLayout;
+    private ImageView mIvNavDrawerHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_drawer);
         ab.setDisplayHomeAsUpEnabled(true);*/
+        this.mIvNavDrawerHeader = (ImageView) findViewById(R.id.iv_nav_drawer_head);
+
 
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -79,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(this, GameService.class);
         startService(intent);
         CM.getBus().register(this);
+        CM.getPicasso().load(NAV_BAR_IMAGE_URLS[RANDOM.nextInt(NAV_BAR_IMAGE_URLS.length)])
+                .placeholder(R.drawable.ic_menu_white_36dp)
+                .error(R.drawable.ic_dvr_black_48dp)
+                .into(this.mIvNavDrawerHeader);
     }
 
     @Override

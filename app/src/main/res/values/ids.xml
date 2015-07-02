@@ -23,6 +23,7 @@
     <!-- TextViews -->
     <item name="tv_title" type="id"/>
     <item name="tv_level" type="id"/>
+    <item name="iv_nav_drawer_head" type="id"/>
 
     <!-- Buttons -->
     <item name="btn_upgrade" type="id"/>
