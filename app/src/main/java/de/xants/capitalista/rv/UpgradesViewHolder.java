@@ -32,14 +32,15 @@ import de.xants.capitalista.model.otto.UpgradeBuyEvent;
 public class UpgradesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private ImageView mIvIcon;
-    private TextView mTvTitle;
+    private TextView mTvTitle, mTvCost;
     private Button mBtnUpgrade;
     private Upgrade mUpgrade;
 
     public UpgradesViewHolder(ViewGroup viewGroup) {
-        super(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_production, viewGroup, false));
+        super(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_upgrades, viewGroup, false));
         this.mIvIcon = (ImageView) this.itemView.findViewById(R.id.iv_icon);
         this.mTvTitle = (TextView) this.itemView.findViewById(R.id.tv_title);
+        this.mTvCost = (TextView) this.itemView.findViewById(R.id.tv_cost);
         this.mBtnUpgrade = (Button) this.itemView.findViewById(R.id.btn_upgrade);
         this.mBtnUpgrade.setOnClickListener(this);
     }
@@ -52,7 +53,7 @@ public class UpgradesViewHolder extends RecyclerView.ViewHolder implements View.
         this.mUpgrade = upgrade;
         this.mTvTitle.setText(upgrade.PRODUCTION_TYPE.TITLE);
         this.mIvIcon.setImageResource(upgrade.PRODUCTION_TYPE.DRAWABLE);
-        this.mBtnUpgrade.setText("" + upgrade.COST);
+        this.mTvCost.setText("" + upgrade.COST);
     }
 
     @Override
