@@ -30,6 +30,7 @@ import de.xants.capitalista.CM;
 import de.xants.capitalista.R;
 import de.xants.capitalista.model.Production;
 import de.xants.capitalista.model.otto.ProductionUpgradeEvent;
+import de.xants.capitalista.model.otto.UpgradeMultiplierEvent;
 
 public class ProductionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -61,11 +62,17 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
         }
     }
 
+    @Subscribe
+    public void onUpgradeMultiplierEvent(UpgradeMultiplierEvent upgradeMultiplierEvent) {
+        this.mBtnUpgrade.setText(this.itemView.getResources()
+                .getQuantityString(R.plurals.upgrade,
+                        upgradeMultiplierEvent.MULTIPLIER.VALUE, upgradeMultiplierEvent.MULTIPLIER.VALUE));
+    }
+
     private void updateData() {
         this.mIvIcon.setImageResource(this.mProduction.getProductionType().DRAWABLE);
         this.mTvTitle.setText(this.mProduction.getProductionType().TITLE);
         this.mTvLevel.setText("" + this.mProduction.getLevel());
-        this.mBtnUpgrade.setText(this.itemView.getResources().getQuantityString(R.plurals.upgrade, 1, 1));
         this.mTvCost.setText(this.itemView.getResources().getString(R.string.format_currency, this.mProduction.upgradeCost()));
     }
 
@@ -79,7 +86,6 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
     @Override
     public void onClick(View v) {
         if (v == this.mBtnUpgrade) {
-            //CM.getBus().post(new UpgradeRequestEvent(this.mProduction.getProductionType()));
             CM.getBus().post(ProductionUpgradeEvent.create(this.mProduction.getLevel() + 1, this.mProduction.getProductionType()));
         }
     }

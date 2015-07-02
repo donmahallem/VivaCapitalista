@@ -16,8 +16,13 @@
 
 package de.xants.capitalista.model;
 
+import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import de.xants.capitalista.model.otto.UpgradeMultiplierEvent;
 
 /**
  * Central class for all game related information
@@ -36,6 +41,7 @@ public class Game {
      * Global holder for current time
      */
     private long now = System.currentTimeMillis();
+    private Multiplier mUpgradeMultiplier = Multiplier.M_1;
 
     public synchronized double getProductionPerSecond() {
         if (!this.mProductionUpgraded) {
@@ -81,6 +87,16 @@ public class Game {
             return;
         this.mProductionMap.get(productionType).upgrade(level);
         this.mProductionUpgraded = true;
+    }
+
+    @Produce
+    public UpgradeMultiplierEvent getUpgradeMultiplier() {
+        return UpgradeMultiplierEvent.create(this.mUpgradeMultiplier);
+    }
+
+    @Subscribe
+    public void onUpgradeMultiplierEvent(UpgradeMultiplierEvent upgradeMultiplierEvent) {
+        this.mUpgradeMultiplier = upgradeMultiplierEvent.MULTIPLIER;
     }
 
     /**
