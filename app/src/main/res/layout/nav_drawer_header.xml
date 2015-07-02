@@ -14,8 +14,10 @@
   ~ limitations under the License.
   -->
 
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView
+    android:id="@id/iv_nav_drawer_head"
+    xmlns:android="http://schemas.android.com/apk/res/android"
            android:layout_width="match_parent"
            android:layout_height="240dp"
-           android:scaleType="fitCenter"
+    android:scaleType="centerCrop"
            android:src="@drawable/ic_menu_white_36dp"/>
