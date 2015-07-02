@@ -53,7 +53,7 @@ public class UpgradesViewHolder extends RecyclerView.ViewHolder implements View.
         this.mUpgrade = upgrade;
         this.mTvTitle.setText(upgrade.PRODUCTION_TYPE.TITLE);
         this.mIvIcon.setImageResource(upgrade.PRODUCTION_TYPE.DRAWABLE);
-        this.mTvCost.setText("" + upgrade.COST);
+        this.mTvCost.setText(this.itemView.getResources().getString(R.string.format_currency, upgrade.COST));
     }
 
     @Override

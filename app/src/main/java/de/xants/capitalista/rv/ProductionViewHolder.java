@@ -39,12 +39,14 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
     private TextView mTvTitle;
     private TextView mTvLevel;
     private Production mProduction;
+    private TextView mTvCost;
 
     public ProductionViewHolder(ViewGroup parent) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.card_production, parent, false));
         this.mIvIcon = (ImageView) this.itemView.findViewById(R.id.iv_icon);
         this.mTvTitle = (TextView) this.itemView.findViewById(R.id.tv_title);
         this.mTvLevel = (TextView) this.itemView.findViewById(R.id.tv_level);
+        this.mTvCost = (TextView) this.itemView.findViewById(R.id.tv_cost);
         this.mBtnUpgrade = (Button) this.itemView.findViewById(R.id.btn_upgrade);
         this.mBtnUpgrade.setOnClickListener(this);
     }
@@ -63,7 +65,8 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
         this.mIvIcon.setImageResource(this.mProduction.getProductionType().DRAWABLE);
         this.mTvTitle.setText(this.mProduction.getProductionType().TITLE);
         this.mTvLevel.setText("" + this.mProduction.getLevel());
-        this.mBtnUpgrade.setText("" + this.mProduction.upgradeCost());
+        this.mBtnUpgrade.setText(this.itemView.getResources().getQuantityString(R.plurals.upgrade, 1, 1));
+        this.mTvCost.setText(this.itemView.getResources().getString(R.string.format_currency, this.mProduction.upgradeCost()));
     }
 
     public void setData(Production production) {
