@@ -19,20 +19,25 @@ package de.xants.capitalista.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.xants.capitalista.R;
-import de.xants.capitalista.rv.UpgradesRecyclerAdapter;
 
 public class FragmentUpgradesOverview extends FragmentToolbar {
     private CoordinatorLayout mCoordinatorLayout;
-    private RecyclerView mRecyclerView;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
     public static Fragment createInstance() {
         return new FragmentUpgradesOverview();
     }
@@ -47,12 +52,49 @@ public class FragmentUpgradesOverview extends FragmentToolbar {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mCoordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.main_content);
-        this.mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        this.mRecyclerView.setAdapter(new UpgradesRecyclerAdapter());
+        this.mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        this.mTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
+        setupViewPager();
+        this.mTabLayout.setupWithViewPager(this.mViewPager);
         if (this.getActivity() instanceof AppCompatActivity)
             ((AppCompatActivity) this.getActivity()).setSupportActionBar(this.getToolbar());
         this.getToolbar().setNavigationIcon(R.drawable.ic_menu_white_36dp);
         this.getActivity().setTitle(R.string.upgrades);
+    }
+
+    private void setupViewPager() {
+        Adapter adapter = new Adapter(getChildFragmentManager());
+        adapter.addFragment(new FragmentUpgradesAvailable(), "Category 1");
+        adapter.addFragment(new FragmentUpgradesActivated(), "Category 2");
+        this.mViewPager.setAdapter(adapter);
+    }
+
+    static class Adapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragments = new ArrayList<>();
+        private final List<String> mFragmentTitles = new ArrayList<>();
+
+        public Adapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragments.add(fragment);
+            mFragmentTitles.add(title);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitles.get(position);
+        }
     }
 }

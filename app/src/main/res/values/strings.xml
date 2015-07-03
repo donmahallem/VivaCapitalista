@@ -39,7 +39,8 @@
         <item quantity="one">Upgrade</item>
         <item quantity="other">Upgrade *%d</item>
     </plurals>
-
+    <string name="available">Available</string>
+    <string name="activated">Activated</string>
     <string name="type1">Type 1</string>
     <string name="type2">Type 2</string>
     <string name="type3">Type 3</string>

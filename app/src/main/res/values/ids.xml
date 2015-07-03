@@ -35,6 +35,9 @@
     <!-- Else -->
     <item name="toolbar" type="id"/>
     <item name="recyclerView" type="id"/>
+    <item name="tabLayout" type="id"/>
+    <item name="floatingActionButton" type="id"/>
+    <item name="viewPager" type="id"/>
 
     <!-- Menu -->
     <item name="menu_upgrades" type="id"/>
