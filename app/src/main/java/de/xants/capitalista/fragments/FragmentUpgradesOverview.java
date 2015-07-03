@@ -64,8 +64,8 @@ public class FragmentUpgradesOverview extends FragmentToolbar {
 
     private void setupViewPager() {
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new FragmentUpgradesAvailable(), "Category 1");
-        adapter.addFragment(new FragmentUpgradesActivated(), "Category 2");
+        adapter.addFragment(new FragmentUpgradesAvailable(), this.getResources().getString(R.string.available));
+        adapter.addFragment(new FragmentUpgradesActivated(), this.getResources().getString(R.string.activated));
         this.mViewPager.setAdapter(adapter);
     }
 
