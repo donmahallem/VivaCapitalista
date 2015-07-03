@@ -17,6 +17,7 @@
 package de.xants.capitalista.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -64,8 +65,10 @@ public class FragmentUpgradesOverview extends FragmentToolbar {
 
     private void setupViewPager() {
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new FragmentUpgradesAvailable(), this.getResources().getString(R.string.available));
-        adapter.addFragment(new FragmentUpgradesActivated(), this.getResources().getString(R.string.activated));
+        adapter.addFragment(new FragmentUpgradesAvailable(),
+                this.getResources().getString(R.string.available));
+        adapter.addFragment(new FragmentUpgradesActivated(),
+                this.getResources().getString(R.string.activated));
         this.mViewPager.setAdapter(adapter);
     }
 
@@ -77,14 +80,14 @@ public class FragmentUpgradesOverview extends FragmentToolbar {
             super(fm);
         }
 
-        public void addFragment(Fragment fragment, String title) {
-            mFragments.add(fragment);
-            mFragmentTitles.add(title);
+        public void addFragment(@NonNull Fragment fragment, @NonNull String title) {
+            this.mFragments.add(fragment);
+            this.mFragmentTitles.add(title);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return mFragments.get(position);
+            return this.mFragments.get(position);
         }
 
         @Override
@@ -94,7 +97,7 @@ public class FragmentUpgradesOverview extends FragmentToolbar {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
+            return this.mFragmentTitles.get(position);
         }
     }
 }
