@@ -25,6 +25,7 @@
     <item name="tv_title" type="id"/>
     <item name="tv_level" type="id"/>
     <item name="tv_cost" type="id"/>
+    <item name="tv_multiplier" type="id"/>
 
     <!-- Buttons -->
     <item name="btn_upgrade" type="id"/>

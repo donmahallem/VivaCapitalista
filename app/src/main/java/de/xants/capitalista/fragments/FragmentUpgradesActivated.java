@@ -17,6 +17,7 @@
 package de.xants.capitalista.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,12 +25,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import de.xants.capitalista.R;
-import de.xants.capitalista.rv.UpgradesRecyclerAdapter;
+import de.xants.capitalista.model.ProductionType;
 
 public class FragmentUpgradesActivated extends Fragment {
     private RecyclerView mRecyclerView;
+    private UpgradesActivatedRecyclerAdapter mUpgradesActivatedRecyclerAdapter = new UpgradesActivatedRecyclerAdapter();
 
     public static Fragment createInstance() {
         return new FragmentUpgradesActivated();
@@ -46,6 +50,79 @@ public class FragmentUpgradesActivated extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        this.mRecyclerView.setAdapter(new UpgradesRecyclerAdapter());
+        this.mRecyclerView.setAdapter(this.mUpgradesActivatedRecyclerAdapter);
+    }
+
+    static class TitleViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mTvTitle;
+
+        public TitleViewHolder(ViewGroup parent) {
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_title, parent, false));
+            this.mTvTitle = (TextView) this.itemView;
+        }
+
+        public void setTitle(@Nullable int title) {
+            this.mTvTitle.setText(title);
+        }
+
+        public void setTitle(@Nullable String title) {
+            this.mTvTitle.setText(title);
+        }
+    }
+
+    static class ActivatedUpgradeViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView mIvIcon;
+        private TextView mTvTitle;
+
+        public ActivatedUpgradeViewHolder(ViewGroup parent) {
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_activated_upgrade, parent, false));
+            this.mTvTitle = (TextView) this.itemView.findViewById(R.id.tv_title);
+            this.mIvIcon = (ImageView) this.itemView.findViewById(R.id.iv_icon);
+        }
+
+        public void setProductionType(@NonNull ProductionType productionType) {
+            this.mTvTitle.setText(productionType.TITLE);
+            this.mIvIcon.setImageResource(productionType.DRAWABLE);
+        }
+    }
+
+    static class UpgradesActivatedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        private final static int TYPE_TITLE = 0, TYPE_DETAIL = 1;
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            switch (viewType) {
+                case TYPE_DETAIL:
+                    return new ActivatedUpgradeViewHolder(parent);
+                case TYPE_TITLE:
+                    return new TitleViewHolder(parent);
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            if (holder instanceof TitleViewHolder) {
+                TitleViewHolder titleViewHolder = (TitleViewHolder) holder;
+                titleViewHolder.setTitle(R.string.production);
+            } else if (holder instanceof ActivatedUpgradeViewHolder) {
+                ActivatedUpgradeViewHolder activatedUpgradeViewHolder = (ActivatedUpgradeViewHolder) holder;
+                activatedUpgradeViewHolder.setProductionType(ProductionType.values()[position / 2]);
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position % 2 == 0 ? TYPE_TITLE : TYPE_DETAIL;
+        }
+
+        @Override
+        public int getItemCount() {
+            return ProductionType.values().length * 2;
+        }
     }
 }
