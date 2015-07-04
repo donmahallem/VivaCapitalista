@@ -26,7 +26,9 @@
         android:layout_height="@dimen/listitem_icon_size"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/listitem_icon_margin"
-        android:layout_marginRight="@dimen/listitem_icon_margin"/>
+        android:layout_marginRight="@dimen/listitem_icon_margin"
+        android:background="@drawable/circle_background_dark_grey"
+        android:scaleType="centerInside"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
