@@ -111,13 +111,15 @@ public class FragmentUpgradesActivated extends Fragment {
                 titleViewHolder.setTitle(R.string.production);
             } else if (holder instanceof ActivatedUpgradeViewHolder) {
                 ActivatedUpgradeViewHolder activatedUpgradeViewHolder = (ActivatedUpgradeViewHolder) holder;
-                activatedUpgradeViewHolder.setProductionType(ProductionType.values()[position / 2]);
+                activatedUpgradeViewHolder.setProductionType(ProductionType.values()[(position - 1) % 10]);
             }
         }
 
         @Override
         public int getItemViewType(int position) {
-            return position % 2 == 0 ? TYPE_TITLE : TYPE_DETAIL;
+            if (position == 0 || position == 11)
+                return TYPE_TITLE;
+            return TYPE_DETAIL;
         }
 
         @Override
