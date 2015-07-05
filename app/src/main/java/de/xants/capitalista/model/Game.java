@@ -22,7 +22,10 @@ import com.squareup.otto.Subscribe;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.xants.capitalista.CM;
+import de.xants.capitalista.model.otto.UpgradeMultiplierChangeEvent;
 import de.xants.capitalista.model.otto.UpgradeMultiplierEvent;
+import timber.log.Timber;
 
 /**
  * Central class for all game related information
@@ -43,6 +46,9 @@ public class Game {
     private long now = System.currentTimeMillis();
     private Multiplier mUpgradeMultiplier = Multiplier.M_1;
 
+    public Game() {
+        //  CM.getBus().register(this);
+    }
     public synchronized double getProductionPerSecond() {
         if (!this.mProductionUpgraded) {
             return this.mProductionPerSecCache;
@@ -94,6 +100,20 @@ public class Game {
         return UpgradeMultiplierEvent.create(this.mUpgradeMultiplier);
     }
 
+
+    @Subscribe
+    public void onUpgradeMultiplierChangeEvent(UpgradeMultiplierChangeEvent upgradeMultiplierChangeEvent) {
+        Timber.d("onUpgradeMultiplierChangeEvent - " + this.mUpgradeMultiplier);
+        if (this.mUpgradeMultiplier == Multiplier.M_1)
+            this.mUpgradeMultiplier = Multiplier.M_10;
+        else if (this.mUpgradeMultiplier == Multiplier.M_10)
+            this.mUpgradeMultiplier = Multiplier.M_100;
+        else if (this.mUpgradeMultiplier == Multiplier.M_100)
+            this.mUpgradeMultiplier = Multiplier.M_MAX;
+        else if (this.mUpgradeMultiplier == Multiplier.M_MAX)
+            this.mUpgradeMultiplier = Multiplier.M_1;
+        CM.getBus().post(UpgradeMultiplierEvent.create(this.mUpgradeMultiplier));
+    }
     @Subscribe
     public void onUpgradeMultiplierEvent(UpgradeMultiplierEvent upgradeMultiplierEvent) {
         this.mUpgradeMultiplier = upgradeMultiplierEvent.MULTIPLIER;

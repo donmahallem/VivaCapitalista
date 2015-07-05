@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package de.xants.capitalista;
+package de.xants.capitalista.model.otto;
 
-import android.app.Application;
+public class UpgradeMultiplierChangeEvent {
+    private UpgradeMultiplierChangeEvent() {
+    }
 
-import de.xants.capitalista.model.Game;
-import timber.log.Timber;
-
-public class CapitalistaApplication extends Application {
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        if (BuildConfig.DEBUG)
-            Timber.plant(new Timber.DebugTree());
-        CM.init(this);
-        Game game = new Game();
-        CM.getBus().register(game);
+    public static UpgradeMultiplierChangeEvent create() {
+        return new UpgradeMultiplierChangeEvent();
     }
 }

@@ -21,6 +21,7 @@ import android.content.Context;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +30,7 @@ import java.io.File;
 public class CM {
 
     private final static long CACHE_SIZE = 50 * 1024 * 1024;
-    private static Bus BUS = new Bus();
+    private static Bus BUS = new Bus(ThreadEnforcer.ANY);
     private static OkHttpClient mOkHttpClient;
     private static Cache mOkHttpClientCache;
     private static Picasso mPicasso;

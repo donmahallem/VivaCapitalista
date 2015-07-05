@@ -35,6 +35,7 @@ public class GameService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Timber.d("Starting GameService");
         long time = System.currentTimeMillis();
+        //CM.getBus().register(this.mGame);
         while (this.mRunning) {
             this.mGame.tick();
         }
@@ -43,6 +44,7 @@ public class GameService extends IntentService {
     @Override
     public void onDestroy() {
         Timber.d("Stoping GameService");
+        //CM.getBus().unregister(this.mGame);
         this.mRunning = false;
         super.onDestroy();
     }

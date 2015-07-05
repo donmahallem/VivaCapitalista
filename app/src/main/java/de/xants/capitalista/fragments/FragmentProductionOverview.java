@@ -19,23 +19,30 @@ package de.xants.capitalista.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Subscribe;
+
 import de.xants.capitalista.CM;
 import de.xants.capitalista.R;
+import de.xants.capitalista.model.otto.UpgradeMultiplierChangeEvent;
+import de.xants.capitalista.model.otto.UpgradeMultiplierEvent;
 import de.xants.capitalista.rv.ProductionRecyclerAdapter;
+import timber.log.Timber;
 
-public class FragmentProductionOverview extends FragmentToolbar {
+public class FragmentProductionOverview extends FragmentToolbar implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private CoordinatorLayout mCoordinatorLayout;
-
+    private FloatingActionButton mFloatingActionButton;
     public static Fragment createInstance() {
         return new FragmentProductionOverview();
     }
@@ -49,6 +56,7 @@ public class FragmentProductionOverview extends FragmentToolbar {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
         this.mCoordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.main_content);
         this.mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -57,6 +65,7 @@ public class FragmentProductionOverview extends FragmentToolbar {
             ((AppCompatActivity) this.getActivity()).setSupportActionBar(this.getToolbar());
         this.getToolbar().setNavigationIcon(R.drawable.ic_menu_white_36dp);
         this.getActivity().setTitle(R.string.production);
+        this.mFloatingActionButton.setOnClickListener(this);
     }
 
     @Override
@@ -69,5 +78,33 @@ public class FragmentProductionOverview extends FragmentToolbar {
     public void onPause() {
         CM.getBus().unregister(this);
         super.onPause();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == this.mFloatingActionButton) {
+            Timber.d("OnClick - FloatingActionButton");
+            CM.getBus().post(UpgradeMultiplierChangeEvent.create());
+        }
+    }
+
+
+    @Subscribe
+    public void onProductionUpgrade(UpgradeMultiplierEvent upgradeMultiplierEvent) {
+        Log.d("test2", "testvalue: " + upgradeMultiplierEvent.MULTIPLIER);
+        switch (upgradeMultiplierEvent.MULTIPLIER) {
+            case M_1:
+                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_1x);
+                break;
+            case M_10:
+                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_10x);
+                break;
+            case M_100:
+                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_100x);
+                break;
+            case M_MAX:
+                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_max);
+                break;
+        }
     }
 }
