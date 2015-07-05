@@ -19,6 +19,7 @@ package de.xants.capitalista.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,11 +63,11 @@ public class FragmentUpgradesActivated extends Fragment {
             this.mTvTitle = (TextView) this.itemView;
         }
 
-        public void setTitle(@Nullable int title) {
+        public void setTitle(@StringRes @Nullable int title) {
             this.mTvTitle.setText(title);
         }
 
-        public void setTitle(@Nullable String title) {
+        public void setTitle(@StringRes @Nullable String title) {
             this.mTvTitle.setText(title);
         }
     }
@@ -75,29 +76,39 @@ public class FragmentUpgradesActivated extends Fragment {
 
         private ImageView mIvIcon;
         private TextView mTvTitle;
+        private TextView mTvMultiplier;
 
         public ActivatedUpgradeViewHolder(ViewGroup parent) {
-            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_activated_upgrade, parent, false));
+            super(LayoutInflater
+                    .from(parent.getContext())
+                    .inflate(R.layout.listitem_activated_upgrade, parent, false));
             this.mTvTitle = (TextView) this.itemView.findViewById(R.id.tv_title);
             this.mIvIcon = (ImageView) this.itemView.findViewById(R.id.iv_icon);
+            this.mTvMultiplier = (TextView) this.itemView.findViewById(R.id.tv_multiplier);
         }
 
         public void setProductionType(@NonNull ProductionType productionType) {
             this.mTvTitle.setText(productionType.TITLE);
             this.mIvIcon.setImageResource(productionType.DRAWABLE);
+            this.mTvMultiplier.setText(
+                    this.itemView.getContext()
+                            .getResources().getString(R.string.format_multiplier, 29d));
         }
     }
 
     static class UpgradesActivatedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-        private final static int TYPE_TITLE = 0, TYPE_DETAIL = 1;
+        private final static int TYPE_TITLE_PRODUCTION = 0,
+                TYPE_TITLE_OTHER = 1,
+                TYPE_DETAIL = 2;
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             switch (viewType) {
                 case TYPE_DETAIL:
                     return new ActivatedUpgradeViewHolder(parent);
-                case TYPE_TITLE:
+                case TYPE_TITLE_PRODUCTION:
+                case TYPE_TITLE_OTHER:
                     return new TitleViewHolder(parent);
                 default:
                     return null;
@@ -108,7 +119,14 @@ public class FragmentUpgradesActivated extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (holder instanceof TitleViewHolder) {
                 TitleViewHolder titleViewHolder = (TitleViewHolder) holder;
-                titleViewHolder.setTitle(R.string.production);
+                switch (getItemViewType(position)) {
+                    case TYPE_TITLE_OTHER:
+                        titleViewHolder.setTitle(R.string.other);
+                        break;
+                    case TYPE_TITLE_PRODUCTION:
+                        titleViewHolder.setTitle(R.string.production);
+                        break;
+                }
             } else if (holder instanceof ActivatedUpgradeViewHolder) {
                 ActivatedUpgradeViewHolder activatedUpgradeViewHolder = (ActivatedUpgradeViewHolder) holder;
                 activatedUpgradeViewHolder.setProductionType(ProductionType.values()[(position - 1) % 10]);
@@ -117,8 +135,10 @@ public class FragmentUpgradesActivated extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == 0 || position == 11)
-                return TYPE_TITLE;
+            if (position == 0)
+                return TYPE_TITLE_PRODUCTION;
+            else if (position == 11)
+                return TYPE_TITLE_OTHER;
             return TYPE_DETAIL;
         }
 
