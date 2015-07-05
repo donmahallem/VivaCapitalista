@@ -16,6 +16,8 @@
 
 package de.xants.capitalista.model.otto;
 
+import android.support.annotation.NonNull;
+
 import de.xants.capitalista.model.ProductionType;
 
 public class ProductionUpgradeEvent {
@@ -27,7 +29,8 @@ public class ProductionUpgradeEvent {
         this.PRODUCTION_TYPE = productionType;
     }
 
-    public static ProductionUpgradeEvent create(int level, ProductionType productionType) {
+    @NonNull
+    public static ProductionUpgradeEvent create(int level, @NonNull ProductionType productionType) {
         return new ProductionUpgradeEvent(level, productionType);
     }
 }

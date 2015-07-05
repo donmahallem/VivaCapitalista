@@ -27,6 +27,7 @@ public class FragmentShowEvent {
         this.FRAGMENT = fragments;
     }
 
+    @NonNull
     public static FragmentShowEvent create(@NonNull Fragments fragments) {
         if (fragments == null)
             throw new NullPointerException("Argument fragments must not be null");

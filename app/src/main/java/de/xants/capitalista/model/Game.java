@@ -16,6 +16,9 @@
 
 package de.xants.capitalista.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +61,7 @@ public class Game {
      * @param productionType Production Type
      * @return the production or @null
      */
+    @Nullable
     public Production getProduction(ProductionType productionType) {
         return this.mProductionMap.get(productionType);
     }
@@ -67,7 +71,7 @@ public class Game {
      *
      * @param productionType ProductionType
      */
-    public void upgrade(ProductionType productionType) {
+    public void upgrade(@NonNull ProductionType productionType) {
         this.upgrade(productionType, 1);
     }
 
@@ -77,7 +81,7 @@ public class Game {
      * @param productionType ProductionType
      * @param level          Level
      */
-    public void upgrade(ProductionType productionType, int level) {
+    public void upgrade(@NonNull ProductionType productionType, int level) {
         if (productionType == null)
             return;
         if (this.mProductionMap.containsKey(productionType))

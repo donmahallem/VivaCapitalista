@@ -16,6 +16,8 @@
 
 package de.xants.capitalista.model.otto;
 
+import android.support.annotation.NonNull;
+
 import de.xants.capitalista.model.Upgrade;
 
 public class UpgradeBuyEvent {
@@ -25,7 +27,7 @@ public class UpgradeBuyEvent {
         this.UPGRADE = upgrade;
     }
 
-    public static UpgradeBuyEvent create(Upgrade upgrade) {
+    public static UpgradeBuyEvent create(@NonNull Upgrade upgrade) {
         return new UpgradeBuyEvent(upgrade);
     }
 }
