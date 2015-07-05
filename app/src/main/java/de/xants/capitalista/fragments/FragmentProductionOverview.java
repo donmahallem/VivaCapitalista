@@ -94,16 +94,16 @@ public class FragmentProductionOverview extends FragmentToolbar implements View.
         Log.d("test2", "testvalue: " + upgradeMultiplierEvent.MULTIPLIER);
         switch (upgradeMultiplierEvent.MULTIPLIER) {
             case M_1:
-                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_1x);
+                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_1x_24dp);
                 break;
             case M_10:
-                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_10x);
+                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_10x_24dp);
                 break;
             case M_100:
-                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_100x);
+                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_100x_24dp);
                 break;
             case M_MAX:
-                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_max);
+                this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_max_24dp);
                 break;
         }
     }
