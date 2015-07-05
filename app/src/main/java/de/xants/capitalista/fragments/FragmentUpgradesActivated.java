@@ -18,6 +18,7 @@ package de.xants.capitalista.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -103,19 +104,31 @@ public class FragmentUpgradesActivated extends Fragment {
         }
     }
 
-    static abstract class UpgradeViewHolder extends RecyclerView.ViewHolder {
+    static abstract class TitleSubtitleViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mIvIcon;
         private TextView mTvTitle;
         private TextView mTvSubTitle;
 
-        public UpgradeViewHolder(ViewGroup parent) {
+        public TitleSubtitleViewHolder(ViewGroup parent) {
             super(LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.listitem_activated_upgrade, parent, false));
             this.mTvTitle = (TextView) this.itemView.findViewById(R.id.tv_title);
             this.mIvIcon = (ImageView) this.itemView.findViewById(R.id.iv_icon);
             this.mTvSubTitle = (TextView) this.itemView.findViewById(R.id.tv_multiplier);
+        }
+
+        protected void setIcon(@DrawableRes int res) {
+            this.mIvIcon.setImageResource(res);
+        }
+
+        protected void setTitle(@StringRes int title) {
+            this.mTvTitle.setText(title);
+        }
+
+        protected void setTitle(@NonNull String title) {
+            this.mTvTitle.setText(title);
         }
 
         protected void setSubTitle(@StringRes int subTitle) {
@@ -132,12 +145,38 @@ public class FragmentUpgradesActivated extends Fragment {
         }
     }
 
+    static class GlobalMultiplierViewHolder extends TitleSubtitleViewHolder {
+
+        public GlobalMultiplierViewHolder(ViewGroup parent) {
+            super(parent);
+        }
+
+        public void update() {
+            this.setIcon(R.drawable.ic_menu_white_36dp);
+            this.setTitle(R.string.global);
+            this.setSubTitle("SO MANY TIMES");
+        }
+    }
+
+    static abstract class UpgradeViewHolder extends TitleSubtitleViewHolder {
+
+        public UpgradeViewHolder(ViewGroup parent) {
+            super(parent);
+        }
+
+        public void setProductionType(@NonNull ProductionType productionType) {
+            this.setTitle(productionType.TITLE);
+            this.setIcon(productionType.DRAWABLE);
+        }
+    }
+
     static class UpgradesActivatedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private final static int TYPE_TITLE_PRODUCTION = 0,
                 TYPE_TITLE_OTHER = 1,
                 TYPE_DETAIL_LEVEL = 2,
-                TYPE_DETAIL_MULTIPLIER = 3;
+                TYPE_DETAIL_MULTIPLIER = 3,
+                TYPE_GLOBAL_MULTIPLIER = 4;
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -146,6 +185,8 @@ public class FragmentUpgradesActivated extends Fragment {
                     return new LevelUpgradeViewHolder(parent);
                 case TYPE_DETAIL_MULTIPLIER:
                     return new MultiplierUpgradeViewHolder(parent);
+                case TYPE_GLOBAL_MULTIPLIER:
+                    return new GlobalMultiplierViewHolder(parent);
                 case TYPE_TITLE_PRODUCTION:
                 case TYPE_TITLE_OTHER:
                     return new TitleViewHolder(parent);
@@ -168,7 +209,10 @@ public class FragmentUpgradesActivated extends Fragment {
                 }
             } else if (holder instanceof UpgradeViewHolder) {
                 UpgradeViewHolder upgradeViewHolder = (UpgradeViewHolder) holder;
-                upgradeViewHolder.setProductionType(ProductionType.values()[(position - 1 + (position >= 10 ? -1 : 0)) % 10]);
+                upgradeViewHolder.setProductionType(ProductionType.values()[(position - 1 + (position >= 10 ? -2 : 0)) % 10]);
+            } else if (holder instanceof GlobalMultiplierViewHolder) {
+                GlobalMultiplierViewHolder globalMultiplierViewHolder = (GlobalMultiplierViewHolder) holder;
+                globalMultiplierViewHolder.update();
             }
         }
 
@@ -180,6 +224,8 @@ public class FragmentUpgradesActivated extends Fragment {
                 return TYPE_TITLE_OTHER;
             else if (position < 11 && position > 0)
                 return TYPE_DETAIL_MULTIPLIER;
+            else if (position == 12)
+                return TYPE_GLOBAL_MULTIPLIER;
             return TYPE_DETAIL_LEVEL;
         }
 

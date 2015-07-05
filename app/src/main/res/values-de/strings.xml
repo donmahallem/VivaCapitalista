@@ -38,6 +38,7 @@
     <string name="format_multiplier">x %1$f</string>
     <string name="format_plus_x_level">+ %1$d Level</string>
     <string name="other">Andere</string>
+    <string name="global">Global</string>
     <plurals name="upgrade">
         <item quantity="one">Upgrade</item>
         <item quantity="other">Upgrade *%d</item>
