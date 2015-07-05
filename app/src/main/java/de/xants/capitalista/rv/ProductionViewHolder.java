@@ -30,7 +30,6 @@ import de.xants.capitalista.CM;
 import de.xants.capitalista.R;
 import de.xants.capitalista.model.Production;
 import de.xants.capitalista.model.otto.ProductionUpgradeEvent;
-import de.xants.capitalista.model.otto.UpgradeMultiplierEvent;
 
 public class ProductionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -60,13 +59,6 @@ public class ProductionViewHolder extends RecyclerView.ViewHolder implements Vie
             this.mProduction.setLevel(productionUpgradeEvent.LEVEL);
             updateData();
         }
-    }
-
-    @Subscribe
-    public void onUpgradeMultiplierEvent(UpgradeMultiplierEvent upgradeMultiplierEvent) {
-        this.mBtnUpgrade.setText(this.itemView.getResources()
-                .getQuantityString(R.plurals.upgrade,
-                        upgradeMultiplierEvent.MULTIPLIER.VALUE, upgradeMultiplierEvent.MULTIPLIER.VALUE));
     }
 
     private void updateData() {

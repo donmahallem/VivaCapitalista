@@ -24,25 +24,24 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.otto.Subscribe;
-
 import de.xants.capitalista.CM;
 import de.xants.capitalista.R;
-import de.xants.capitalista.model.otto.UpgradeMultiplierChangeEvent;
-import de.xants.capitalista.model.otto.UpgradeMultiplierEvent;
+import de.xants.capitalista.model.Multiplier;
 import de.xants.capitalista.rv.ProductionRecyclerAdapter;
 import timber.log.Timber;
 
 public class FragmentProductionOverview extends FragmentToolbar implements View.OnClickListener {
 
+    private final static String KEY_MULTIPLIER = "productionMultiplier";
     private RecyclerView mRecyclerView;
     private CoordinatorLayout mCoordinatorLayout;
     private FloatingActionButton mFloatingActionButton;
+    private Multiplier mProductionMultiplier = Multiplier.M_1;
+
     public static Fragment createInstance() {
         return new FragmentProductionOverview();
     }
@@ -56,6 +55,9 @@ public class FragmentProductionOverview extends FragmentToolbar implements View.
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_MULTIPLIER)) {
+            this.mProductionMultiplier = (Multiplier) savedInstanceState.getSerializable(KEY_MULTIPLIER);
+        }
         this.mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
         this.mCoordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.main_content);
         this.mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -71,28 +73,12 @@ public class FragmentProductionOverview extends FragmentToolbar implements View.
     @Override
     public void onResume() {
         super.onResume();
+        updateProductionMultiplierButton();
         CM.getBus().register(this);
     }
 
-    @Override
-    public void onPause() {
-        CM.getBus().unregister(this);
-        super.onPause();
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == this.mFloatingActionButton) {
-            Timber.d("OnClick - FloatingActionButton");
-            CM.getBus().post(UpgradeMultiplierChangeEvent.create());
-        }
-    }
-
-
-    @Subscribe
-    public void onProductionUpgrade(UpgradeMultiplierEvent upgradeMultiplierEvent) {
-        Log.d("test2", "testvalue: " + upgradeMultiplierEvent.MULTIPLIER);
-        switch (upgradeMultiplierEvent.MULTIPLIER) {
+    private void updateProductionMultiplierButton() {
+        switch (this.mProductionMultiplier) {
             case M_1:
                 this.mFloatingActionButton.setImageResource(R.drawable.ic_production_multiplier_1x_24dp);
                 break;
@@ -107,4 +93,37 @@ public class FragmentProductionOverview extends FragmentToolbar implements View.
                 break;
         }
     }
+
+    private void onProductionMultiplierUpgrade() {
+        if (this.mProductionMultiplier == Multiplier.M_1)
+            this.mProductionMultiplier = Multiplier.M_10;
+        else if (this.mProductionMultiplier == Multiplier.M_10)
+            this.mProductionMultiplier = Multiplier.M_100;
+        else if (this.mProductionMultiplier == Multiplier.M_100)
+            this.mProductionMultiplier = Multiplier.M_MAX;
+        else if (this.mProductionMultiplier == Multiplier.M_MAX)
+            this.mProductionMultiplier = Multiplier.M_1;
+        updateProductionMultiplierButton();
+    }
+
+    @Override
+    public void onPause() {
+        CM.getBus().unregister(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == this.mFloatingActionButton) {
+            Timber.d("OnClick - FloatingActionButton");
+            onProductionMultiplierUpgrade();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putSerializable(KEY_MULTIPLIER, this.mProductionMultiplier);
+    }
+
 }
