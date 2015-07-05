@@ -17,6 +17,7 @@
 package de.xants.capitalista.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -72,27 +73,62 @@ public class FragmentUpgradesActivated extends Fragment {
         }
     }
 
-    static class ActivatedUpgradeViewHolder extends RecyclerView.ViewHolder {
+    static class LevelUpgradeViewHolder extends UpgradeViewHolder {
+
+        public LevelUpgradeViewHolder(ViewGroup parent) {
+            super(parent);
+        }
+
+        @CallSuper
+        public void setProductionType(@NonNull ProductionType productionType) {
+            super.setProductionType(productionType);
+            this.setSubTitle(
+                    this.itemView.getContext()
+                            .getResources().getString(R.string.format_plus_x_level, 29));
+        }
+    }
+
+    static class MultiplierUpgradeViewHolder extends UpgradeViewHolder {
+
+        public MultiplierUpgradeViewHolder(ViewGroup parent) {
+            super(parent);
+        }
+
+        @CallSuper
+        public void setProductionType(@NonNull ProductionType productionType) {
+            super.setProductionType(productionType);
+            this.setSubTitle(
+                    this.itemView.getContext()
+                            .getResources().getString(R.string.format_multiplier, 29d));
+        }
+    }
+
+    static abstract class UpgradeViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mIvIcon;
         private TextView mTvTitle;
-        private TextView mTvMultiplier;
+        private TextView mTvSubTitle;
 
-        public ActivatedUpgradeViewHolder(ViewGroup parent) {
+        public UpgradeViewHolder(ViewGroup parent) {
             super(LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.listitem_activated_upgrade, parent, false));
             this.mTvTitle = (TextView) this.itemView.findViewById(R.id.tv_title);
             this.mIvIcon = (ImageView) this.itemView.findViewById(R.id.iv_icon);
-            this.mTvMultiplier = (TextView) this.itemView.findViewById(R.id.tv_multiplier);
+            this.mTvSubTitle = (TextView) this.itemView.findViewById(R.id.tv_multiplier);
+        }
+
+        protected void setSubTitle(@StringRes int subTitle) {
+            this.mTvSubTitle.setText(subTitle);
+        }
+
+        protected void setSubTitle(@NonNull String subTitle) {
+            this.mTvSubTitle.setText(subTitle);
         }
 
         public void setProductionType(@NonNull ProductionType productionType) {
             this.mTvTitle.setText(productionType.TITLE);
             this.mIvIcon.setImageResource(productionType.DRAWABLE);
-            this.mTvMultiplier.setText(
-                    this.itemView.getContext()
-                            .getResources().getString(R.string.format_multiplier, 29d));
         }
     }
 
@@ -100,13 +136,16 @@ public class FragmentUpgradesActivated extends Fragment {
 
         private final static int TYPE_TITLE_PRODUCTION = 0,
                 TYPE_TITLE_OTHER = 1,
-                TYPE_DETAIL = 2;
+                TYPE_DETAIL_LEVEL = 2,
+                TYPE_DETAIL_MULTIPLIER = 3;
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             switch (viewType) {
-                case TYPE_DETAIL:
-                    return new ActivatedUpgradeViewHolder(parent);
+                case TYPE_DETAIL_LEVEL:
+                    return new LevelUpgradeViewHolder(parent);
+                case TYPE_DETAIL_MULTIPLIER:
+                    return new MultiplierUpgradeViewHolder(parent);
                 case TYPE_TITLE_PRODUCTION:
                 case TYPE_TITLE_OTHER:
                     return new TitleViewHolder(parent);
@@ -127,9 +166,9 @@ public class FragmentUpgradesActivated extends Fragment {
                         titleViewHolder.setTitle(R.string.production);
                         break;
                 }
-            } else if (holder instanceof ActivatedUpgradeViewHolder) {
-                ActivatedUpgradeViewHolder activatedUpgradeViewHolder = (ActivatedUpgradeViewHolder) holder;
-                activatedUpgradeViewHolder.setProductionType(ProductionType.values()[(position - 1) % 10]);
+            } else if (holder instanceof UpgradeViewHolder) {
+                UpgradeViewHolder upgradeViewHolder = (UpgradeViewHolder) holder;
+                upgradeViewHolder.setProductionType(ProductionType.values()[(position - 1 + (position >= 10 ? -1 : 0)) % 10]);
             }
         }
 
@@ -139,12 +178,14 @@ public class FragmentUpgradesActivated extends Fragment {
                 return TYPE_TITLE_PRODUCTION;
             else if (position == 11)
                 return TYPE_TITLE_OTHER;
-            return TYPE_DETAIL;
+            else if (position < 11 && position > 0)
+                return TYPE_DETAIL_MULTIPLIER;
+            return TYPE_DETAIL_LEVEL;
         }
 
         @Override
         public int getItemCount() {
-            return ProductionType.values().length * 2;
+            return ProductionType.values().length * 2 + 2;
         }
     }
 }
