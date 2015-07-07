@@ -19,7 +19,7 @@ package de.xants.capitalista.model;
 import de.xants.capitalista.R;
 
 public enum ProductionType {
-    TYPE1(R.string.type1, R.drawable.ic_production_0_white_24dp, 10, 1, 10 * 1000, 1.01),
+    TYPE1(R.string.type1, R.drawable.ic_production_0_white_48dp, 10, 1, 10 * 1000, 1.01),
     TYPE2(R.string.type2, R.drawable.ic_brightness_low_white_24dp, 200, 10, 30 * 1000, 1.01),
     TYPE3(R.string.type3, R.drawable.ic_dvr_black_48dp, 4000, 10, 60 * 1000, 1.01),
     TYPE4(R.string.type4, R.drawable.ic_dvr_black_48dp, 80000, 10, 2 * 60 * 1000, 1.01),

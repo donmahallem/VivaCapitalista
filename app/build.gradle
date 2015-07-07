@@ -27,6 +27,15 @@ android {
         versionCode 8
         versionName "1.7"
     }
+    productFlavors {
+        api14 {
+            minSdkVersion 14
+        }
+
+        api21 {
+            minSdkVersion 21
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false

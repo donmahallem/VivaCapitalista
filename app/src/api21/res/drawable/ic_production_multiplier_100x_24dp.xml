@@ -1,0 +1,37 @@
+<!--
+  ~ Copyright 2015 https://github.com/donmahallem/VivaCapitalista
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportHeight="750.0"
+        android:viewportWidth="750.0">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M 129,129
+           C 129,145 129,197 15,197
+           L15,241 117,241 117,570 15,570 15,619 280,619 280,570 180,570 180,129z
+		   M566,120
+		   C481.5,120 397,165 397,375
+		   C397,585 481.5,630 566,630
+		   C650.5,630 735,585 735,375
+		   C735,165 650.5,120 566,120
+		   M566,173
+		   C649,173 669,240.33 669,375
+		   C669,509.666 649,577 566,577
+		   C483,577 463,506.666 463,375
+		   C463,240.333 483,173 566,173z"/>
+</vector>

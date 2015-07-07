@@ -22,7 +22,7 @@
                                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                                     android:layout_marginTop="5dp"
-                                    app:cardBackgroundColor="#DDDDDD"
+                                    app:cardBackgroundColor="@color/light_green_400"
                                     app:cardCornerRadius="4dp"
                                     app:cardElevation="4dp">
 
